@@ -2,10 +2,15 @@ import json
 
 import pymongo
 
+from chatbot import Chatbot
+from voice_assistant import VoiceAssistant
+from web_interface import WebInterface
+
 
 class AgentConfigurator:
     def __init__(self):
         self.llm_models = {}
+        self.human_input_sources = {}
         self.input_sources = ["text", "voice", "image"]
         self.tools = ["NLTK", "spaCy", "gensim"]
 
@@ -20,12 +25,20 @@ class AgentConfigurator:
             print("Error: No compatible LLM model found.")
             return False
 
+        # Define the human input source based on the task requirements and the agent's mode
+        human_input_source = self._define_human_input_source(mode)
+        if not human_input_source:
+            print("Error: No compatible human input source found.")
+            return False
+
         if not llm_model or not input_source or not tools:
             print("Error: Invalid mode for agent.")
             return False
 
         # Configure agent's parameters based on mode and user's specifications
         if not self._configure_llm_model(agent_id, llm_model):
+            return False
+        if not self._configure_human_input_source(agent_id, human_input_source):
             return False
 
         return True
@@ -39,6 +52,16 @@ class AgentConfigurator:
         # Select the appropriate LLM model based on the task requirements and the agent's mode
         if mode in self.llm_models:
             return self.llm_models[mode]
+
+    # Define the human input source based on the task requirements and the agent's mode
+    def _define_human_input_source(self, mode):
+        # Check if human input sources have been loaded
+        if not self.human_input_sources:
+            self._load_human_input_sources()
+
+        # Define the human input source based on the task requirements and the agent's mode
+        if mode in self.human_input_sources:
+            return self.human_input_sources[mode]
 
     def _select_input_source(self, mode):
         if mode == "text":
@@ -96,6 +119,26 @@ class AgentConfigurator:
     # Configure agent's LLM model based on user's specifications
     def _configure_llm_model(self, agent_id, llm_model):
         # Configure agent's LLM model based on user's specifications
+        # ...
+
+        return True
+
+    # Load human input sources from database or file system
+    def _load_human_input_sources(self):
+        # Load human input sources from database or file system
+        # ...
+
+        # Store human input sources in dictionary
+        self.human_input_sources = {
+            "mode1": Chatbot(),
+            "mode2": VoiceAssistant(),
+            "mode3": WebInterface(),
+            # ...
+        }
+
+    # Configure agent's human input source based on user's specifications
+    def _configure_human_input_source(self, agent_id, human_input_source):
+        # Configure agent's human input source based on user's specifications
         # ...
 
         return True
