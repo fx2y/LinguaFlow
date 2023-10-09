@@ -4,6 +4,7 @@ import uuid
 
 from communication_channel import CommunicationChannel
 from llm_model import LLMModel
+from mode_requirements import ModeRequirements
 from task_requirements import TaskRequirements
 
 
@@ -23,6 +24,10 @@ class AgentFactory:
 
         # Check if agent role is defined and consistent with task requirements
         if not self._is_valid_role(role, mode):
+            return None
+
+        # Check if agent mode is valid and consistent with task requirements
+        if not self._is_valid_mode(mode):
             return None
 
         # Create new agent with unique ID and communication channel
@@ -87,6 +92,20 @@ class AgentFactory:
         # Check if role is consistent with task requirements
         if not TaskRequirements.is_compatible_role(role, mode):
             print("Error: Agent role is not consistent with task requirements.")
+            return False
+
+        return True
+
+    # Check if agent mode is valid and consistent with task requirements
+    def _is_valid_mode(self, mode):
+        # Check if mode is valid
+        if mode not in ModeRequirements.valid_modes:
+            print("Error: Agent mode is not valid.")
+            return False
+
+        # Check if mode is consistent with task requirements
+        if not TaskRequirements.is_compatible_mode(mode):
+            print("Error: Agent mode is not consistent with task requirements.")
             return False
 
         return True
