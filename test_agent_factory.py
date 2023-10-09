@@ -11,24 +11,25 @@ class TestAgentFactory(unittest.TestCase):
 
     def test_create_agent(self):
         # Test creating a new agent with valid parameters
-        agent_id = self.agent_factory.create_agent("test_agent", "friendly", "assistant", "training")
+        agent_id = self.agent_factory.create_agent("test_agent", "friendly", "assistant", "training", "file_system")
         self.assertIsNotNone(agent_id)
         self.assertIn(agent_id, self.agent_factory.agents.keys())
 
         # Test creating a new agent with invalid name
-        agent_id = self.agent_factory.create_agent("invalid name", "friendly", "assistant", "training")
+        agent_id = self.agent_factory.create_agent("invalid name", "friendly", "assistant", "training", "file_system")
         self.assertIsNone(agent_id)
 
         # Test creating a new agent with invalid mode
-        agent_id = self.agent_factory.create_agent("test_agent", "friendly", "assistant", "invalid_mode")
+        agent_id = self.agent_factory.create_agent("test_agent", "friendly", "assistant", "invalid_mode", "file_system")
         self.assertIsNone(agent_id)
 
         # Test creating a new agent with invalid role
-        agent_id = self.agent_factory.create_agent("test_agent", "friendly", "invalid_role", "training")
+        agent_id = self.agent_factory.create_agent("test_agent", "friendly", "invalid_role", "training", "file_system")
         self.assertIsNone(agent_id)
 
         # Test creating a new agent with invalid personality
-        agent_id = self.agent_factory.create_agent("test_agent", "invalid_personality", "assistant", "training")
+        agent_id = self.agent_factory.create_agent("test_agent", "invalid_personality", "assistant", "training",
+                                                   "file_system")
         self.assertIsNone(agent_id)
 
     def test_is_valid_name(self):
@@ -63,7 +64,7 @@ class TestAgentFactory(unittest.TestCase):
         # Test creating a new agent with valid parameters
         mock_configure_agent.return_value = True
         mock_initialize_agent.return_value = True
-        agent_id = self.agent_factory.create_agent("test_agent", "friendly", "assistant", "training")
+        agent_id = self.agent_factory.create_agent("test_agent", "friendly", "assistant", "training", "file_system")
         self.assertIsNotNone(agent_id)
         self.assertIn(agent_id, self.agent_factory.agents.keys())
         mock_configure_agent.assert_called_once_with(agent_id, "training")

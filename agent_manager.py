@@ -8,11 +8,11 @@ class AgentManager:
         self.agents: Dict[str, Dict[str, Any]] = {}
         self.factory = AgentFactory()
 
-    def create_agent(self, name: str, personality: str, role: str, mode: str) -> Optional[str]:
-        agent_id = self.factory.create_agent(name, personality, role, mode)
+    def create_agent(self, name: str, personality: str, role: str, mode: str, source: str) -> Optional[str]:
+        agent_id = self.factory.create_agent(name, personality, role, mode, source)
         if agent_id is None:
             return None
-        self.agents[agent_id] = {"name": name, "personality": personality, "role": role, "mode": mode}
+        self.agents[agent_id] = {"name": name, "personality": personality, "role": role, "mode": mode, "source": source}
         return agent_id
 
     def get_agent_name(self, agent_id: str) -> Optional[str]:

@@ -1,4 +1,17 @@
 class TaskRequirements:
+    valid_tasks = ["task1", "task2", "task3"]
+
+    @staticmethod
+    def is_compatible_mode(mode):
+        if mode == "mode1":
+            return True
+        elif mode == "mode2":
+            return False
+        elif mode == "mode3":
+            return True
+        else:
+            return False
+
     @staticmethod
     def is_compatible_role(role, mode):
         # Check if role is defined

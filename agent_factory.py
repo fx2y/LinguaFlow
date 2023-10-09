@@ -13,7 +13,7 @@ class AgentFactory:
         self.agents = {}
 
     # Create new agent based on user's specifications
-    def create_agent(self, name, personality, role, mode):
+    def create_agent(self, name, personality, role, mode, source):
         # Check if agent name is unique and follows naming convention
         if not self._is_valid_name(name):
             return None
@@ -34,10 +34,10 @@ class AgentFactory:
         agent_id = self._generate_id()
         communication_channel = self._create_communication_channel(agent_id)
 
-        # Configure agent's parameters based on mode
+        # Configure agent's parameters based on mode and source
         from agent_configurator import AgentConfigurator
         agent_configurator = AgentConfigurator()
-        if not agent_configurator.configure_agent(agent_id, mode):
+        if not agent_configurator.configure_agent(agent_id, mode, source):
             return None
 
         # Initialize agent's state based on role and task
