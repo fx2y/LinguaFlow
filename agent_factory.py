@@ -3,6 +3,7 @@ import re
 import uuid
 
 from communication_channel import CommunicationChannel
+from llm_model import LLMModel
 
 
 class AgentFactory:
@@ -13,6 +14,10 @@ class AgentFactory:
     def create_agent(self, name, personality, role, mode):
         # Check if agent name is unique and follows naming convention
         if not self._is_valid_name(name):
+            return None
+
+        # Check if agent personality is compatible with LLM model and task requirements
+        if not self._is_compatible_personality(personality, mode):
             return None
 
         # Create new agent with unique ID and communication channel
@@ -54,6 +59,15 @@ class AgentFactory:
         # Check if name follows naming convention
         if not re.match(r'^[a-zA-Z0-9_-]+$', name):
             print("Error: Agent name does not follow naming convention.")
+            return False
+
+        return True
+
+    # Check if agent personality is compatible with LLM model and task requirements
+    def _is_compatible_personality(self, personality, mode):
+        # Check if personality is compatible with LLM model and task requirements
+        if not LLMModel.is_compatible_personality(personality, mode):
+            print("Error: Agent personality is not compatible with LLM model and task requirements.")
             return False
 
         return True
