@@ -4,6 +4,7 @@ import uuid
 
 from communication_channel import CommunicationChannel
 from llm_model import LLMModel
+from task_requirements import TaskRequirements
 
 
 class AgentFactory:
@@ -18,6 +19,10 @@ class AgentFactory:
 
         # Check if agent personality is compatible with LLM model and task requirements
         if not self._is_compatible_personality(personality, mode):
+            return None
+
+        # Check if agent role is defined and consistent with task requirements
+        if not self._is_valid_role(role, mode):
             return None
 
         # Create new agent with unique ID and communication channel
@@ -68,6 +73,20 @@ class AgentFactory:
         # Check if personality is compatible with LLM model and task requirements
         if not LLMModel.is_compatible_personality(personality, mode):
             print("Error: Agent personality is not compatible with LLM model and task requirements.")
+            return False
+
+        return True
+
+    # Check if agent role is defined and consistent with task requirements
+    def _is_valid_role(self, role, mode):
+        # Check if role is defined
+        if not role:
+            print("Error: Agent role is not defined.")
+            return False
+
+        # Check if role is consistent with task requirements
+        if not TaskRequirements.is_compatible_role(role, mode):
+            print("Error: Agent role is not consistent with task requirements.")
             return False
 
         return True
